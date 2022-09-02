@@ -1,8 +1,9 @@
 const express = require("express");
 const connectDB = require("./config/connectDB");
+require('dotenv').config()
 const user = require("./model/user");
 const app = express();
-const port = 5000;
+const port = process.env.port;
 
 connectDB();
 
@@ -11,12 +12,12 @@ app.listen(port,console.log('app is runnig '))
 //Create and Save a Record of a Model:
 const add = async () => {
   try {
-    const nuser = new user ({
-      name: "nawres",
-      age: 24,
-      favoritefood: ["pizza", ],
+    const newuser = new user ({
+      name: 'Alex',
+      age: 25,
+      favoriteFoods: ['Pizza', 'Hamburger', 'Sushi']
     });
-    await nuser.save();
+    await newuser.save();
     console.log(nuser);
   } catch (error) {
     console.log(error);
@@ -27,15 +28,26 @@ const users = async () => {
   try {
     const manyPerson = await user.create([
       {
-        name: "nouhe",
-        age: 22,
-        favoritefood: ["soup"]
-      },
-      {
-        name: "nabil",
-        age: 45,
-        favoriteFoods: ["pasta"],
-      },
+        name: 'Yanni',
+        age: 18,
+        favoriteFoods: ['Takos', 'Karri', 'Boritos']
+    },
+    {
+        name: 'Alexander',
+        age: 50,
+        favoriteFoods: ['Lasagna', 'Bottarga', 'Ribollita', 'Risotto']
+    },
+    {
+        name: 'Safwen',
+        age: 24,
+        favoriteFoods: ['Koskous', 'Mosli', 'Kafteji', 'Mloukhia']
+    },
+    {
+        name: 'Rym',
+        age: 27,
+        favoriteFoods: ['Jareesh', 'Mandi', 'Kabsa', 'Markook', 'Aseedah']
+
+    }
     ]);
   } catch (error) {
     console.log(error);
@@ -94,7 +106,7 @@ const findRemoveById= (Id)=>{
 
 // MongoDB and Mongoose - Delete Many Documents with model.remove():
 const removeManyPerson=(Name)=>{
-  user.remove({name: Name}, (err, data)=>{
+  user.deleteMany({name: Name}, (err, data)=>{
       err? console.log(err): console.log(data)
   })
   } 
